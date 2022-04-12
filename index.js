@@ -1,12 +1,45 @@
 `use strict`;
 const tbody = document.querySelector(`tbody`);
 const getUsers = async () => {
-  const usersData = await fetch("https://jsonplaceholder.typicode.com/users");
-  const response = await usersData.json();
-  tbody.innerHTML = ``;
-  response.forEach((element) => {
-    tbody.innerHTML += users(element);
-  });
+  try {
+    const usersData = await fetch("https://jsonplaceholder.typicode.com/users");
+    const response = await usersData.json();
+    tbody.innerHTML = ``;
+    response.forEach((element) => {
+      tbody.innerHTML += users(element);
+    });
+    const sortBtn = document.querySelector(`.sort-btn`);
+    sortBtn.addEventListener(`click`, (e) => {
+      const sorted = response.sort((a, b) =>
+        a.name.toLowerCase() > b.name.toLowerCase()
+          ? 1
+          : a.name.toLowerCase() < b.name.toLowerCase()
+          ? -1
+          : 0
+      );
+      tbody.innerHTML = ``;
+      if (e.target.innerText === "ASC") {
+        e.target.textContent = `DESC`;
+        sorted.forEach((element) => {
+          tbody.innerHTML += users(element);
+        });
+      } else {
+        e.target.innerText = "ASC";
+        sorted.reverse().forEach((el) => {
+          tbody.innerHTML += users(el);
+        });
+      }
+    });
+    const ul = document.querySelector(`.address-list`);
+    const addressFormat = response.map((el) => el.address);
+    addressFormat.forEach((address) => {
+      ul.innerHTML += `<li>${Object.values(address).filter(
+        (el) => typeof el !== `object`
+      )}</li>`;
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const filterUserEmail = async () => {
@@ -72,28 +105,7 @@ const displayAllNames = async () => {
     console.error(err);
   }
 };
-const createListAddress = async () => {
-  try {
-    const ul = document.querySelector(`.address-list`);
-    const usersData = await fetch("https://jsonplaceholder.typicode.com/users");
-    const response = await usersData.json();
-    const addressFormat = response.map((el) => el.address);
-    console.log(addressFormat);
-    addressFormat.forEach(({ city, street, suite, zipcode }) => {
-      ul.innerHTML += `<li>${street}, ${suite}, ${city}, ${zipcode}</li>`;
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-const sortNamesAscendingOrder = async () => {
-  const usersData = await fetch("https://jsonplaceholder.typicode.com/users");
-  const response = await usersData.json();
-  const names = response.map((el) => el.name).sort();
-  // const sort = names.sort();
-  console.log(names);
-};
-//<a href=""></a>
+
 const users = (data) => `<tr> 
 <th scope="row">${data.id}</th>
 
@@ -106,6 +118,4 @@ const users = (data) => `<tr>
 </tr>`;
 window.onload = () => {
   getUsers();
-  createListAddress();
-  sortNamesAscendingOrder();
 };

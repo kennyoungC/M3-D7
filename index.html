@@ -19,6 +19,7 @@
     <div class="container">
       <div class="d-flex justify-content-between align-items-center">
         <h1>USER API</h1>
+        <button type="button" class="sort-btn btn btn-secondary">ASC</button>
         <div class="dropdown">
           <button
             class="btn btn-outline-secondary dropdown-toggle"
@@ -48,11 +49,11 @@
             </li>
           </ul>
           <input
+            class="input"
             type="text"
             placeholder="search for user"
             onkeyup="getUsers()"
           />
-          <!-- onchange="filterUserEmail(event)" -->
         </div>
       </div>
       <table class="table">
