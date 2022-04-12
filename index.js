@@ -31,6 +31,7 @@ const getUsers = async () => {
       }
     });
     const ul = document.querySelector(`.address-list`);
+    ul.innerHTML = ``;
     const addressFormat = response.map((el) => el.address);
     addressFormat.forEach((address) => {
       ul.innerHTML += `<li>${Object.values(address).filter(
