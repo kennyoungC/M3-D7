@@ -43,55 +43,6 @@ const getUsers = async () => {
   }
 };
 
-// const filterUserEmail = async () => {
-//   try {
-//     const query = document.querySelector(`input`).value;
-//     const usersData = await fetch("https://jsonplaceholder.typicode.com/users");
-//     const response = await usersData.json();
-//     const tbody = document.querySelector(`tbody`);
-//     tbody.innerHTML = ``;
-//     response
-//       .filter((elem) => elem.email.toLowerCase().includes(query.toLowerCase()))
-//       .forEach((element) => {
-//         tbody.innerHTML += users(element);
-//       });
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
-// const filterUserName = async () => {
-//   try {
-//     const query = document.querySelector(`input`).value;
-//     const usersData = await fetch("https://jsonplaceholder.typicode.com/users");
-//     const response = await usersData.json();
-//     tbody.innerHTML = ``;
-//     response
-//       .filter((elem) =>
-//         elem.username.toLowerCase().includes(query.toLowerCase())
-//       )
-//       .forEach((element) => {
-//         tbody.innerHTML += users(element);
-//       });
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// };
-// const filterName = async () => {
-//   try {
-//     const query = document.querySelector(`input`).value;
-//     const usersData = await fetch("https://jsonplaceholder.typicode.com/users");
-//     const response = await usersData.json();
-//     const tbody = document.querySelector(`tbody`);
-//     tbody.innerHTML = ``;
-//     response
-//       .filter((elem) => elem.name.toLowerCase().includes(query.toLowerCase()))
-//       .forEach((element) => {
-//         tbody.innerHTML += users(element);
-//       });
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
 const displayAllNames = async () => {
   try {
     const ol = document.querySelector(`ol`);
@@ -123,14 +74,14 @@ window.onload = () => {
 const dropDown = document.querySelector(".dropdown");
 dropDown.addEventListener("click", async (e) => {
   if (e.target.classList.contains("dropdown-item")) {
+    const searchQuery = document.querySelector(`input`).value;
     const query = e.target.innerText.toLowerCase();
-    console.log(query);
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
     const usersData = await response.json();
-
-    console.log(usersData);
+    const tbody = document.querySelector(`tbody`);
+    tbody.innerHTML = ``;
     usersData
-      .filter((elem) => elem[query].includes(query.toLowerCase()))
+      .filter((elem) => elem[query].includes(searchQuery.toLowerCase()))
       .forEach((element) => {
         tbody.innerHTML += users(element);
       });
